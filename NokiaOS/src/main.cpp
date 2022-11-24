@@ -17,7 +17,7 @@ void core1loop( void * pvParameters ){
   delay(75);
   digitalWrite(LED_BUILTIN, LOW);
   delay(500);
-  client.write("IM STILL ALIVE!!");
+  //client.write("IM STILL ALIVE!!");
 }
 
 void core2loop( void * pvParameters ){
@@ -28,7 +28,7 @@ void setup() {
   Serial.begin(baud_rate);
   startWifi(ssid, password);
   startOTA(ota_port, ota_hostname, ota_password);
-  socket_connect(socket_port, socket_host);
+  //socket_connect(socket_port, socket_host);
 
   Serial.println("Ready");
   Serial.print("IP address: ");
