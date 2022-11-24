@@ -1,3 +1,7 @@
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <WiFi.h>
+
 // Multicore stuff
 TaskHandle_t core0loophandle;
 TaskHandle_t core1loophandle;
@@ -23,5 +27,10 @@ const char *ota_password = "password";
 const uint16_t socket_port = 4000;
 const char *socket_host = "home.bangert.dk";
 WiFiClient client;
+
+// MPU
+
+Adafruit_MPU6050 mpu;
+sensors_event_t a, g, temp;
 
 // Other settings
