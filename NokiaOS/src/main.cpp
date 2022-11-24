@@ -7,21 +7,31 @@
 #include "config.h"
 #include "socket.h"
 
-void core1loop( void * pvParameters ){
-  handleOTA();
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(75);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(50);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(75);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(500);
-  //client.write("IM STILL ALIVE!!");
+void core0loop( void * pvParameters ){
+  Serial.print("Task1 running on core ");
+  Serial.println(xPortGetCoreID());
+
+  for(;;){
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(75);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(75);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(500);
+    client.write("IM STILL ALIVE!!");
+  }
 }
 
-void core2loop( void * pvParameters ){
+void core1loop( void * pvParameters ){
+  Serial.print("Task1 running on core ");
+  Serial.println(xPortGetCoreID());
 
+  for(;;){
+    ArduinoOTA.handle();
+    delay(250);
+  }
 }
 
 void setup() {
@@ -37,22 +47,24 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   xTaskCreatePinnedToCore(
-    core1loop, /* Function to implement the task */
-    "core1loop", /* Name of the task */
+    core0loop, /* Function to implement the task */
+    "core0loop", /* Name of the task */
     10000,  /* Stack size in words */
     NULL,  /* Task input parameter */
-    0,  /* Priority of the task */
-    &core1loophandle,  /* Task handle. */
-    0); /* Core where the task should run */
-    
+    2,  /* Priority of the task */
+    &core0loophandle,  /* Task handle. */
+    CoreZero); /* Core where the task should run */
+  
+  delay(250);
+
   xTaskCreatePinnedToCore(
-    core2loop, /* Function to implement the task */
-    "core2loop", /* Name of the task */
+    core1loop, /* Function to implement the task */
+    "core0loop", /* Name of the task */
     10000,  /* Stack size in words */
     NULL,  /* Task input parameter */
-    0,  /* Priority of the task */
-    &core2loophandle,  /* Task handle. */
-    0); /* Core where the task should run */
+    2,  /* Priority of the task */
+    &core1loophandle,  /* Task handle. */
+    CoreOne); /* Core where the task should run */
 }
 
 

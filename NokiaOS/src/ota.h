@@ -33,7 +33,8 @@ void startOTA(const int port, const char* hostname, const char* password) {
         });
 
     ArduinoOTA.begin();
-    }
+    Serial.println("OTA started");
+}
 
 void handleOTA() {
     ArduinoOTA.handle();
