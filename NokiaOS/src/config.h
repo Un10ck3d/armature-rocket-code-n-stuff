@@ -32,5 +32,6 @@ WiFiClient client;
 
 Adafruit_MPU6050 mpu;
 sensors_event_t a, g, temp;
+// sensors_event_t test;
 
 // Other settings

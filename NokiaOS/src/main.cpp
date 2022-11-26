@@ -1,8 +1,8 @@
 #include "config.h"
+#include "gyro.h"
 #include "ota.h"
 #include "socket.h"
 #include "wifi.h"
-#include "gyro.h"
 #include <ArduinoOTA.h>
 #include <ESPmDNS.h>
 #include <WiFi.h>
@@ -13,15 +13,16 @@ void core0loop(void *pvParameters) {
   Serial.println(xPortGetCoreID());
 
   for (;;) {
-    digitalWrite(LED_BUILTIN, HIGH);
+    // getDevices();
+    /*digitalWrite(LED_BUILTIN, HIGH);
     delay(75);
     digitalWrite(LED_BUILTIN, LOW);
     delay(50);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(75);
     digitalWrite(LED_BUILTIN, LOW);
-    delay(500);
-    //client.write("IM STILL ALIVE!!");
+    delay(500);*/
+    // client.write("IM STILL ALIVE!!");
     Serial.print("Acceleration X: ");
     Serial.print(a.acceleration.x);
     Serial.print(", Y: ");
@@ -41,6 +42,7 @@ void core0loop(void *pvParameters) {
     Serial.print("Temperature: ");
     Serial.print(temp.temperature);
     Serial.println(" degC");
+    // delay(50);
   }
 }
 
@@ -51,7 +53,7 @@ void core1loop(void *pvParameters) {
   for (;;) {
     ArduinoOTA.handle();
     mpu.getEvent(&a, &g, &temp);
-    delay(250);
+    // delay(40);
   }
 }
 
